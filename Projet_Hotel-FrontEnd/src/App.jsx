@@ -8,7 +8,7 @@ function App() {
     return (
         <Router>
             <Routes>
-                {/* Route par défaut qui redirige vers la page de connexion */}
+                {/* Route par dï¿½faut qui redirige vers la page de connexion */}
                 <Route path="/" element={<Navigate to="/login" replace />} />
                 <Route path="/login" element={<Login />} />
 
@@ -21,4 +21,4 @@ function App() {
     );
 }
 
-export default App
+export default App;

@@ -28,12 +28,12 @@ const Reservation = ({ reservation }) => {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`, // Ajout du token dans l'en-tête
+                        'Authorization': `Bearer ${token}`, // Ajout du token dans l'en-tï¿½te
                     },
                 });
 
                 if (!response.ok) {
-                    throw new Error('Erreur de récupération des réservations');
+                    throw new Error('Erreur de rï¿½cupï¿½ration des rï¿½servations');
                 }
 
                 const data = await response.json();
@@ -46,7 +46,7 @@ const Reservation = ({ reservation }) => {
 
         //fetchChambre();
     //}, [navigate]);
-    // Fonction pour alterner la visibilité de l'information
+    // Fonction pour alterner la visibilitï¿½ de l'information
     const toggleInformationVisibility = (type) => {
         if (type === "client") {
             setClientVisible((prev) => !prev);  // Toggle pour client

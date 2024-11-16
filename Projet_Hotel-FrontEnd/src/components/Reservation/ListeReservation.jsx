@@ -9,7 +9,7 @@ const ListeReservation = ({reservations ,error }) => {
 
     return (
         <div>
-            <h2>Ma Liste de Données</h2>
+            <h2>Ma Liste de Donnï¿½es</h2>
             {error ? (
                 <p>Erreur : {error}</p>
             ) : (
