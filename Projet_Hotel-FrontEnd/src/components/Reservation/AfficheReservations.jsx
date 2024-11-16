@@ -44,9 +44,8 @@ const AfficheReservation = () => {
     }, [navigate]);
 
     return (
-        <>
-            <button>Afficher</button>
-            {/*reservations.lenght > 0 &&*/ <ListeReservation reservations={reservations} error={error} /> }
+        <>   
+            {reservations.length > 0 && <ListeReservation reservations={reservations} error={error} /> }
         </>
             );
 };
