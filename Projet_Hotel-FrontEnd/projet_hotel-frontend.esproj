@@ -10,5 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="src\components\EditReservation\" />
+    <Folder Include="src\Header\" />
   </ItemGroup>
 </Project>

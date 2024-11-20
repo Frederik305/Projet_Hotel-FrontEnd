@@ -2,17 +2,26 @@
 //import Reservation from "./Reservation";
 import EditReservation from "./EditReservation"
 
-const ListeReservation = ({ reservations }) => {
+import Reservation from './Reservation';
+
+
+
+
+const ListeReservation = ({reservations ,error }) => {
+
     return (
-        <>
-            {/*reservations.map((reservation, index) => (
-                <Reservation key={index} reservation={reservation} />
-            ))*/}
-            {reservations.map((reservation, index) => (
-                <EditReservation key={index} reservation={reservation} />
-            ))}
-        </>
+        <div>
+            <h2>Ma Liste de Donn�es</h2>
+            {error ? (
+                <p>Erreur : {error}</p>
+            ) : (
+                    <div className="reservation-list">
+                        {reservations.map((reservation) => (
+                            <Reservation key={reservation.pkResId} reservation={reservation} />
+                        ))}
+                    </div>
+            )}
+        </div>
     );
 };
-
 export default ListeReservation;
