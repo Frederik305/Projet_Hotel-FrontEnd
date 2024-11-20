@@ -1,13 +1,9 @@
 ﻿import { useState } from 'react';
 
 /* eslint-disable react/prop-types */
-const Client = ({ client }) => {
+const EditClient = ({ client }) => {
     const [showAdressAndMobile, setIsShowing] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
-    const [prenom, setPrenom] = useState('');
-    const [nom, setNom] = useState('');
-    const [adresse, setAdresse] = useState('');
-    const [mobile, setMobile] = useState('');
 
     const handleModifierClick = () => {
         setIsEditing(!isEditing);
@@ -23,12 +19,12 @@ const Client = ({ client }) => {
 
     return (
         <>
-            <h4>{isEditing ? `Edit Client: ${client.prenom} ${client.nom}` : `${client.prenom} ${client.nom}`}</h4>
+            <h4>{isEditing ? `Edit Client: ${client.cliPrenom} ${client.cliNom}` : `${client.cliPrenom} ${client.cliNom}`}</h4>
             <div>{isEditing ? "" : 
             <div>
                 <button onClick={handleShowClick}>{showAdressAndMobile ? 'more info →' : 'more info ↓'}</button>
-                <p>{showAdressAndMobile ? '' : `${client.adresse}`}</p>
-                <p>{showAdressAndMobile ? '' : `${client.mobile}`}</p>
+                    <p>{showAdressAndMobile ? '' : `${client.cliCourriel}`}</p>
+                    <p>{showAdressAndMobile ? '' : `${client.cliTelephoneMobile}`}</p>
             </div>}</div>
             
 
@@ -38,45 +34,45 @@ const Client = ({ client }) => {
                         <label>Prenom:</label>
                         <input
                             type="text"
-                            value={prenom}
-                            onChange={(e) => setPrenom(e.target.value)}
-                            placeholder={client.prenom}
+                            value={client.cliPrenom}
+                            //onChange={(e) => setPrenom(e.target.value)}
+                            placeholder={client.cliPrenom}
                         />
                     </div>
                     <div>
                         <label>Nom:</label>
                         <input
                             type="text"
-                            value={nom}
-                            onChange={(e) => setNom(e.target.value)}
-                            placeholder={client.nom}
+                            value={client.cliNom}
+                            //onChange={(e) => setNom(e.target.value)}
+                            placeholder={client.cliNom}
                         />
                     </div>
                     <div>
                         <label>Adresse:</label>
                         <input
                             type="text"
-                            value={adresse}
-                            onChange={(e) => setAdresse(e.target.value)}
-                            placeholder={client.adresse}
+                            value={client.cliCourriel}
+                            //onChange={(e) => setAdresse(e.target.value)}
+                            placeholder={client.cliCourriel}
                         />
                     </div>
                     <div>
                         <label>Mobile:</label>
                         <input
                             type="text"
-                            value={mobile}
-                            onChange={(e) => setMobile(e.target.value)}
-                            placeholder={client.mobile}
+                            value={client.cliTelephoneMobile}
+                            //onChange={(e) => setMobile(e.target.value)}
+                            placeholder={client.cliTelephoneMobile}
                         />
                     </div>
                     <button onClick={handleSave}>Save</button>
                 </>
             ) : (
                 <>
-                    <p>{prenom} {nom}</p>
-                    <p>{adresse}</p>
-                    <p>{mobile}</p>
+                        <p>{client.cliPrenom} {client.cliNom}</p>
+                        <p>{client.cliCourriel}</p>
+                        <p>{client.cliTelephoneMobile}</p>
                 </>
             )}
 
@@ -86,4 +82,4 @@ const Client = ({ client }) => {
     );
 };
 
-export default Client;
+export default EditClient;

@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
-import Reservation from './Reservation';
+//import Reservation from "./Reservation";
+import EditReservation from "./EditReservation"
 
 
 
@@ -14,7 +15,7 @@ const ListeReservation = ({reservations ,error }) => {
             ) : (
                     <div className="reservation-list">
                         {reservations.map((reservation) => (
-                            <Reservation key={reservation.pkResId} reservation={reservation} />
+                            <EditReservation key={reservation.pkResId} reservation={reservation} />
                         ))}
                     </div>
             )}

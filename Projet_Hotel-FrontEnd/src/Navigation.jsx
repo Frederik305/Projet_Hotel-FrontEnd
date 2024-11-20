@@ -9,15 +9,9 @@ const Navigation = () => {
 
         <>
             <nav>
-                <ul>
-
-                    <li>
                         <Link to="/afficheReservations">Affiche Reservations</Link>
-                    </li>
-                    <li>
                         <Link to="/rechercheReservation">Rechercher une reservation</Link>
-                    </li>
-                </ul>
+                        <Link to="/rechercheModifierReservation">Modifier une reservation</Link>
             </nav>
 
             <Outlet />
