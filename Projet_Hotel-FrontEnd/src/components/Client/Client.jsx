@@ -2,7 +2,7 @@
 const Client = ({ client }) => {
     return (
         <>
-            <h4>{client.prenom} au {client.nom}</h4>
+            <h4>{client.prenom} {client.nom}</h4>
             <p>{client.adresse}</p>
             <p>{client.mobile}</p>
         </>
