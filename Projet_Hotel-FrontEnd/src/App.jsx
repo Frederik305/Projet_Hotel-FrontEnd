@@ -4,6 +4,7 @@ import Signin from './components/Signin/Signin';
 import Navigation from "./Navigation"
 import AfficheReservation from './components/Reservation/AfficheReservations';
 import RechercheReservation from './components/Reservation/RechercheReservation';
+import RechercheModifierReservation from './components/EditReservation/RechercheModifierReservation';
 import Home from "./Home"
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
                     <Route path="/home" element={<Home />}/>
                     <Route path="/afficheReservations" element={<AfficheReservation />} />
                     <Route path="/rechercheReservation" element={<RechercheReservation />} />
+                    <Route path="/rechercheModifierReservation" element={<RechercheModifierReservation />} />
                 </Route>
             </Routes>
         </Router>

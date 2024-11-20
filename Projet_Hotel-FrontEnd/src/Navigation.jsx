@@ -10,14 +10,10 @@ const Navigation = () => {
 
         <>
             <nav>
-                <div className="link-nav">
-                        <Link to="/afficheReservations">Affiche Reservations</Link>
-                    
-                        <Link to="/rechercheReservation">Rechercher une reservation</Link>
-                </div>
-                        
-
-                    <LogoutButton />
+                <Link to="/afficheReservations">Affiche Reservations</Link>
+                <Link to="/rechercheReservation">Rechercher une reservation</Link>
+                <Link to="/rechercheModifierReservation">Modifier une reservation</Link>
+                <LogoutButton />
             </nav>
 
 
