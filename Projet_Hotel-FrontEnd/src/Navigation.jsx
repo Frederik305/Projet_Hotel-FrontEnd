@@ -4,7 +4,7 @@ import { Outlet, Link } from "react-router-dom";
 
 
 
-const Layout = () => {
+const Navigation = () => {
     return (
 
         <>
@@ -15,7 +15,7 @@ const Layout = () => {
                         <Link to="/afficheReservations">Affiche Reservations</Link>
                     </li>
                     <li>
-                        <Link to="/client">Client</Link>
+                        <Link to="/rechercheReservation">Rechercher une reservation</Link>
                     </li>
                 </ul>
             </nav>
@@ -25,4 +25,4 @@ const Layout = () => {
         </>
     );
 };
-export default Layout;
+export default Navigation;

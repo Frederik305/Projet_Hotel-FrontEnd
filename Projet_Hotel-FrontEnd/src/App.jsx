@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route,Navigate } from 'react-router-do
 import Login from './components/Login/Login';
 import Navigation from "./Navigation"
 import AfficheReservation from './components/Reservation/AfficheReservations';
+import RechercheReservation from './components/Reservation/RechercheReservation';
 import Home from "./Home"
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
                 <Route path="/" element={<Navigation />} >
                     <Route path="/home" element={<Home />}/>
                     <Route path="/afficheReservations" element={<AfficheReservation />} />
+                    <Route path="/rechercheReservation" element={<RechercheReservation />} />
                 </Route>
             </Routes>
         </Router>

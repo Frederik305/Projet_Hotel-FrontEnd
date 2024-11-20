@@ -26,6 +26,7 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
+  justify-content:center;
   min-width: 320px;
   min-height: 100vh;
 }
@@ -90,14 +91,14 @@ button:focus-visible {
     }
 
     /* Champs de saisie */
-    .form-group input {
-        width: 100%;
-        padding: 10px;
-        margin-top: 5px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        font-size: 16px;
-    }
+input{
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
 
 /* Bouton de connexion */
 .login-button {
@@ -124,13 +125,17 @@ button:focus-visible {
 }
 .reservation-list {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction:column;
     gap: 16px;
+}
+.containerSearch{
+    display:flex;
+    flex-direction:column;
 }
 
 
 @media (prefers-color-scheme: light) {
-  :root {
+    : root {
     color: #213547;
     background-color: #ffffff;
   }
