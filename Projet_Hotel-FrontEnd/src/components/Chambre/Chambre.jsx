@@ -7,11 +7,9 @@ const Chambre = ({ chambre }) => {
     return (
 
         <>
-            <div className="reservation-card">
-                <h4>Id: {chambre.pkChaId}</h4>
-                
-                <h4>{chambre.chaNumero}</h4> 
-                
+            <div className="reservation-card">              
+                <h4>Numero de chambre: {chambre.chaNumero}</h4> 
+                <h4>Info divers: {chambre.chaAutreInfo}</h4>
             </div>
         </>
     );

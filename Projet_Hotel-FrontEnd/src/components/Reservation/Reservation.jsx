@@ -3,6 +3,7 @@
 import Chambre from '../Chambre/Chambre';
 import { useNavigate } from 'react-router-dom';
 import {  useState, useRef } from "react";
+import Client from '../Client/Client';
 
 const Reservation = ({ reservation }) => {
     const [clientVisible, setClientVisible] = useState(false);
@@ -13,47 +14,78 @@ const Reservation = ({ reservation }) => {
 
     const [ setError] = useState('');
     const [chambre, setChambre] = useState('');
+    const [client, setClient] = useState('');
     const navigate = useNavigate()
 
     //useEffect(() => {
-        const fetchChambre = async () => {
-            const token = localStorage.getItem('accessToken');
-            if (!token) {
-                navigate('/login'); // Si pas de token, rediriger vers la page de connexion
-                return;
-            }
-            try {
-                const url = `http://localhost:5292/GetChambreById?PkChaId=${reservation.fkChaId}`;
-                const response = await fetch(url, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`, // Ajout du token dans l'en-t�te
-                    },
-                });
+    const fetchChambre = async () => {
+        const token = localStorage.getItem('accessToken');
+        if (!token) {
+            navigate('/login'); // Si pas de token, rediriger vers la page de connexion
+            return;
+        }
+        try {
+            const url = `http://localhost:5292/GetChambreById?PkChaId=${reservation.fkChaId}`;
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`, // Ajout du token dans l'en-t�te
+                },
+            });
 
-                if (!response.ok) {
+            if (!response.ok) {
                     throw new Error('Erreur de r�cup�ration des r�servations');
-                }
+            }
 
                 const data = await response.json();
                 setChambre(data);
-            } catch (err) {
+        } catch (err) {
                 setError(err.message);
                 navigate('/login'); // En cas d'erreur, rediriger vers la page de connexion
+        }
+    };
+
+    const fetchClient = async () => {
+        const token = localStorage.getItem('accessToken');
+        if (!token) {
+            navigate('/login'); // Si pas de token, rediriger vers la page de connexion
+            return;
+        }
+        try {
+            const url = `http://localhost:5292/Client/GetClientById?PkCliId=${reservation.fkCliId}`;
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`, // Ajout du token dans l'en-t�te
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Erreur de récupération des réservations');
             }
-        };
+
+            const data = await response.json();
+            setClient(data);
+        } catch (err) {
+            setError(err.message);
+            navigate('/login'); // En cas d'erreur, rediriger vers la page de connexion
+        }
+    };
+
+
 
         //fetchChambre();
     //}, [navigate]);
     // Fonction pour alterner la visibilit� de l'information
     const toggleInformationVisibility = (type) => {
         if (type === "client") {
+            fetchClient();
             setClientVisible((prev) => !prev);  // Toggle pour client
         } else if (type === "chambre") {
             fetchChambre();
             setChambreVisible((prev) => !prev);  // Toggle pour chambre
-            
         }
     };
 
@@ -65,37 +97,22 @@ const Reservation = ({ reservation }) => {
                 </h4>
                 <p>{reservation.resPrixJour} par jour</p>
                 <div>
-                    <button
-                        className="button-info"
-                        onClick={() => toggleInformationVisibility("client")}
-                    >
-                        {reservation.fkCliId} 
-                    </button>
+                    <button className="button-info" onClick={() => toggleInformationVisibility("client")}>Client</button>
                     {clientVisible && (
                         <p ref={refClient}>
-                       
+                            <Client key={client.pkCliId} client={client} />
                         </p>
                     )}
                     <br />
-                    <button
-                        className="button-info"
-                        onClick={() => toggleInformationVisibility("chambre")}
-                    >
-                        
-                            
-                           
-                         Chambre
-                        
-                    </button>
+                    <button className="button-info" onClick={() => toggleInformationVisibility("chambre")}>Chambre</button>
                     {chambreVisible && (
                         <p ref={refChambre}>
-                            
-                                <Chambre key={chambre.pkChaId} chambre={chambre} />
+                            <Chambre key={chambre.pkChaId} chambre={chambre} />
                         </p>
                     )}
                 </div>
             </div >
-            </>
+        </>
     );
 };
 
