@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
@@ -21,10 +21,12 @@ const Login = () => {
                     logMotDePasse: password,
                 }),
             });
-
             if (!response.ok) {
-                throw new Error('Identifiants incorrects');
+                // Si la réponse n'est pas ok (code 4xx, 5xx), traiter l'erreur
+                const errorData = await response.text(); // On suppose que le backend renvoie un JSON avec un message d'erreur
+                throw new Error(errorData.message || 'Connexion impossible');
             }
+            
 
             const data = await response.json();
             localStorage.setItem('accessToken', data.accessToken); // Stockage du token dans localStorage
@@ -61,7 +63,9 @@ const Login = () => {
                     Connexion
                 </button>
             </form>
+
             {error && <p style={{ color: 'red' }}>{error}</p>}
+            <Link to="/signin">Pas de compte? Inscrivez-vous!</Link>
         </div>
     );
 };

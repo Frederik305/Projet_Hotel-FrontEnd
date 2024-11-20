@@ -27,7 +27,15 @@ const AfficheReservation = () => {
                         'Authorization': `Bearer ${token}`, // Ajout du token dans l'en-tête
                     },
                 });
-
+                if (response.status === 401) {
+                    // Si l'utilisateur n'est pas autorisé
+                    alert('Votre session a expiré ou vous n’êtes pas autorisé. Veuillez vous reconnecter.');
+                    navigate('/login'); // Redirection vers la page de connexion
+                    return;
+                }
+                else if (response.status === 404) {
+                    throw new Error('Aucune réservation.');
+                }
                 if (!response.ok) {
                     throw new Error('Erreur de récupération des réservations');
                 }
@@ -36,7 +44,7 @@ const AfficheReservation = () => {
                 setReservations(data);
             } catch (err) {
                 setError(err.message);
-                navigate('/login'); // En cas d'erreur, rediriger vers la page de connexion
+                
             }
         };
 
