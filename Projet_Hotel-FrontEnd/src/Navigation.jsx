@@ -2,6 +2,7 @@
 /* eslint-disable react/prop-types */
 import { Outlet, Link } from "react-router-dom";
 
+import LogoutButton from "./logout";
 
 
 const Navigation = () => {
@@ -13,6 +14,7 @@ const Navigation = () => {
                         <Link to="/rechercheReservation">Rechercher une reservation</Link>
                         <Link to="/rechercheModifierReservation">Modifier une reservation</Link>
             </nav>
+
 
             <Outlet />
 
