@@ -142,6 +142,11 @@ nav {
     padding: 25px;
     align-items: center;
     background-color:darkslateblue;
+    justify-content:space-between;
+}
+.link-nav{
+    display: flex;
+    gap:15px;
 }
 
 
