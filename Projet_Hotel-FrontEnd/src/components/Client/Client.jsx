@@ -2,10 +2,10 @@
 const Client = ({ client }) => {
     return (
         <>
-            <div className="reservation-card">
+            <div className="card">
                 <h4>{client.cliPrenom} {client.cliNom}</h4>
-                <p>{client.cliCourriel}</p>
-                <p>{client.cliTelephoneMobile}</p>
+                <p>Courriel: {client.cliCourriel}</p>
+                <p>T&eacute;l&eacute;phone: {client.cliTelephoneMobile}</p>
             </div>
         </>
     );

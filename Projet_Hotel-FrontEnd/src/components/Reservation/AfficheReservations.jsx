@@ -52,9 +52,10 @@ const AfficheReservation = () => {
     }, [navigate]);
 
     return (
-        <>   
+        <div className="container-reservation-list">  
+        
             {reservations.length > 0 && <ListeReservation reservations={reservations} error={error} /> }
-        </>
+        </div>
             );
 };
             export default AfficheReservation
