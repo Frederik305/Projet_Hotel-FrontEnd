@@ -97,7 +97,10 @@ const Reservation = ({ reservation }) => {
 
     return (
         <>
-            <div> {isEditing ?
+
+            <div className="reservation-card"> 
+       
+            {isEditing ? 
                 <>
                 <h4>Edit Reservation</h4>
                 <div>

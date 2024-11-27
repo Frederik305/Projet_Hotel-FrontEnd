@@ -11,7 +11,7 @@ function App() {
     return (
         <Router>
             <Routes>
-                {/* Route par d�faut qui redirige vers la page de connexion */}
+                
                 <Route path="/" element={<Navigate to="/login" replace />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signin" element={<Signin />} />
