@@ -1,4 +1,4 @@
-import { useState } from 'react';
+ï»¿import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DatePicker from "react-datepicker";
 import ListeReservation from './ListeReservation';
@@ -44,21 +44,21 @@ const RechercheReservation = () => {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`, // Ajout du token dans l'en-tête
+                    'Authorization': `Bearer ${token}`, // Ajout du token dans l'en-tÃªte
                 },
             });
             if (response.status === 401) {
-                // Si l'utilisateur n'est pas autorisé
-                alert('Votre session a expiré ou vous n’êtes pas autorisé. Veuillez vous reconnecter.');
+                // Si l'utilisateur n'est pas autorisÃ©
+                alert('Votre session a expirÃ© ou vous nâ€™Ãªtes pas autorisÃ©. Veuillez vous reconnecter.');
                 navigate('/login'); // Redirection vers la page de connexion
                 return;
             }
             else if (response.status === 404) {
-                throw new Error('Aucune réservation ne correspond à votre recherche.');
+                throw new Error('Aucune rÃ©servation ne correspond Ã  votre recherche.');
             }
 
             if (!response.ok) {
-                throw new Error('Erreur de récupération des réservations');
+                throw new Error('Erreur de rÃ©cupÃ©ration des rÃ©servations');
             }
             
 
@@ -75,32 +75,36 @@ const RechercheReservation = () => {
     return (
         <>
             <div className="containerSearch">
-                <label>Date de début:</label>
-                <DatePicker
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
+                <div className="form-search">
+                    <h2>Rechercher une rÃ©servation</h2>
+                    <label>Date de d&eacute;but:</label>
+                    <DatePicker
+                        selected={startDate}
+                        onChange={(date) => setStartDate(date)}
                 
-                    dateFormat="yyyy-MM-dd" // Format de la date
-                    isClearable // Ajoute une icône pour effacer la sélection
-                    placeholderText="Choisissez la date de début de la réservation"
-                />
-                <label>Date de fin:</label>
-                <DatePicker
-                    selected={endDate}
-                    onChange={(date) => setEndDate(date)}
+                        dateFormat="yyyy-MM-dd" // Format de la date
+                        isClearable // Ajoute une icÃ´ne pour effacer la sÃ©lection
+                        placeholderText="Choisissez la date de d&eacute;but de la r&eacute;servation"
+                    />
+                    <label>Date de fin:</label>
+                    <DatePicker
+                        selected={endDate}
+                        onChange={(date) => setEndDate(date)}
 
-                    dateFormat="yyyy-MM-dd" // Format de la date
-                    isClearable // Ajoute une icône pour effacer la sélection
-                    placeholderText="Choisissez la date de fin de la réservation"
-                />
-                <label>Prix:</label>
-                <input
-                    type="number"
-                    value={price}
-                    onChange={(e) => setPrice(e.target.value)}
-                    placeholder="Prix"
-                />
-                <button onClick={searchReservations}>Rechercher</button>
+                        dateFormat="yyyy-MM-dd" // Format de la date
+                        isClearable // Ajoute une icÃ´ne pour effacer la sÃ©lection
+                        placeholderText="Choisissez la date de fin de la r&eacute;servation"
+                    />
+                    <label>Prix:</label>
+                    <input
+                        type="number"
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                        placeholder="Prix"
+                    />
+                
+                    <button onClick={searchReservations}>Rechercher</button>
+                </div>
                 {reservations.length > 0 && <ListeReservation reservations={reservations} error={error} />}
             </div>
         </>
