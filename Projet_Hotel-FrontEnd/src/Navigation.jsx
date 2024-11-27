@@ -7,7 +7,6 @@ import LogoutButton from "./logout";
 
 const Navigation = () => {
     return (
-
         <>
             <nav>
                 <Link to="/afficheReservations">Affiche Reservations</Link>

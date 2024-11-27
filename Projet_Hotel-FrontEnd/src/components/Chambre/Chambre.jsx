@@ -1,8 +1,5 @@
 /* eslint-disable react/prop-types */
 
-
-
-
 const Chambre = ({ chambre }) => {
     return (
 
