@@ -7,8 +7,8 @@ import Reservation from './Reservation';
 const ListeReservation = ({reservations ,error }) => {
 
     return (
-        <div>
-            <h2>Ma Liste de Donn�es</h2>
+        <div className="container-reservation-list">
+            <h2>Données de la recherche:</h2>
             {error ? (
                 <p>Erreur : {error}</p>
             ) : (

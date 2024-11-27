@@ -12,7 +12,7 @@ const LogoutButton = () => {
     };
 
     return (
-        <button onClick={handleLogout}>Se déconnecter</button>
+        <button onClick={handleLogout}>Se d&eacute;connecter</button>
     );
 };
 
