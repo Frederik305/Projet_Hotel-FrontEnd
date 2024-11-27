@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+﻿import { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DatePicker from "react-datepicker";
 import ListeReservation from './ListeReservation';
@@ -18,7 +18,16 @@ const RechercheReservation = () => {
 
     const [price, setPrice] = useState(0.0);    
     
-    
+    useEffect(() => {
+        // Vérifiez la présence de l'accessToken dans le localStorage
+        const token = localStorage.getItem('accessToken');
+
+        if (!token) {
+            // Si le token est présent, on considère que l'utilisateur est authentifié
+            navigate('/login');
+
+        }
+    }, [navigate]);
        
 
     const searchReservations = async () => {

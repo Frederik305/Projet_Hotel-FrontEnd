@@ -8,7 +8,7 @@ import EditReservation from "./EditReservation"
 const ListeReservation = ({reservations ,error }) => {
 
     return (
-        <div>
+        <div className ="container-reservation-list">
             <h2>Ma Liste de Donn�es</h2>
             {error ? (
                 <p>Erreur : {error}</p>
