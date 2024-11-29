@@ -11,7 +11,7 @@ const EditChambre = ({ chambre }) => {
     const [numero, setNumero] = useState(chambre.chaNumero);
     const [autres, setAutres] = useState(chambre.chaAutreInfo);
 
-    const postChambre = async (numero, autres) => {
+    const modifierChambre = async () => {
         const token = localStorage.getItem('accessToken');
         if (!token) {
             navigate('/login');
@@ -50,14 +50,15 @@ const EditChambre = ({ chambre }) => {
     };
 
     const handleSave = () => {
-        postChambre(numero, autres);
+        modifierChambre();
         setIsEditing(false);
     };
 
     const handleShowClick = () => {
         setInfoDivers(!showInfoDivers);
     };
-    if (error != null) {
+
+    if (error) {
         return (
             <div><h3>{ error }</h3></div>
         )
@@ -66,7 +67,7 @@ const EditChambre = ({ chambre }) => {
     return (
         <>
             <div>{isEditing ? <>
-                <h4>Edit Chambre: {numero}</h4>
+                <h4>Edit Chambre: {chambre.chaNumero}</h4>
                 <div>
                     <label>Numéro de Chambre:</label>
                     <input
@@ -87,13 +88,12 @@ const EditChambre = ({ chambre }) => {
                 </div>
                 <button onClick={handleSave}>Save</button>
             </> : <div>
-                <h4>{numero}</h4>
+                <h4>{chambre.chaNumero}</h4>
                 <button onClick={handleShowClick}>{showInfoDivers ? 'more info →' : 'more info ↓'}</button>
-                <p>{showInfoDivers ? '' : `${autres}`}</p>
+                <p>{showInfoDivers ? '' : `${chambre.chaAutreInfo}`}</p>
             </div>}</div>
 
             <button onClick={handleModifierClick}>{isEditing ? 'Cancel' : 'Modifier'}</button>
-            <button>Supprimer</button>
         </>
     );
 }

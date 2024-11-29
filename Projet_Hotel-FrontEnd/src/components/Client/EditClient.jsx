@@ -15,7 +15,7 @@ const EditClient = ({ client }) => {
     const [addresse, setAddresse] = useState(client.cliAddresseResidence);
     const [password, setPassword] = useState(client.cliMotDePasse);
 
-    const postClient = async (prenom, nom, addresse, mobile, courriel, password) => {
+    const modifierClient = async () => {
         const token = localStorage.getItem('accessToken');
         if (!token) {
             navigate('/login');
@@ -56,7 +56,7 @@ const EditClient = ({ client }) => {
     };
 
     const handleSave = () => {
-        postClient(prenom, nom, addresse, mobile, courriel, password);
+        modifierClient();
         setIsEditing(false);
     };
 
@@ -64,10 +64,16 @@ const EditClient = ({ client }) => {
         setIsShowing(!showAdressAndMobile);
     };
 
+    if (error) {
+        return (
+            <div><h3>{error}</h3></div>
+        )
+    }
+
     return (
         <>
             <div>{isEditing ? <>
-                <h4>Edit Client: {prenom} {nom}</h4>
+                <h4>Edit Client: {client.cliPrenom} {client.cliNom}</h4>
                 <div>
                     <label>Prenom:</label>
                     <input
@@ -124,11 +130,11 @@ const EditClient = ({ client }) => {
                 </div>
                 <button onClick={handleSave}>Save</button>
             </> : <div>
-                <h4>{prenom} {nom}</h4>
+                    <h4>{client.cliPrenom} {client.cliNom}</h4>
                 <button onClick={handleShowClick}>{showAdressAndMobile ? 'more info →' : 'more info ↓'}</button>
-                <p>{showAdressAndMobile ? '' : `${addresse}`}</p>
-                <p>{showAdressAndMobile ? '' : `${courriel}`}</p>
-                <p>{showAdressAndMobile ? '' : `${mobile}`}</p>
+                <p>{showAdressAndMobile ? '' : `${client.cliAddresseResidence}`}</p>
+                <p>{showAdressAndMobile ? '' : `${client.cliCourriel}`}</p>
+                <p>{showAdressAndMobile ? '' : `${client.cliTelephoneMobile}`}</p>
             </div>}</div>
 
             <button onClick={handleModifierClick}>{isEditing ? 'Cancel' : 'Modifier'}</button>

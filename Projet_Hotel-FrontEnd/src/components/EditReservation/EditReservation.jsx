@@ -21,7 +21,7 @@ const Reservation = ({ reservation }) => {
     const [prix, setPrix] = useState(reservation.resPrixJour);
     const [autre, setAutre] = useState(reservation.resAutre);
 
-    const postReservation = async (du, au, prix, autre) => {
+    const modifierReservation = async () => {
         const token = localStorage.getItem('accessToken');
         if (!token) {
             navigate('/login');
@@ -57,19 +57,60 @@ const Reservation = ({ reservation }) => {
         }
     };
 
-    if (error) {
-        return <div>Error: {error}</div>;
+    const supprimerReservation = async () => {
+        const token = localStorage.getItem('accessToken');
+        if (!token) {
+            navigate('/login');
+            return;
+        }
+        try {
+            const url = `http://localhost:5292/Reservation/annulerReservation`;
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                    pkResId: reservation.pkResId,
+                    resDateDebut: du,
+                    resDateFin: au,
+                    resPrixJour: prix,
+                    resAutre: autre,
+                    fkCliId: reservation.fkCliId,
+                    fkChaId: reservation.fkChaId,
+                }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.text();
+                throw new Error(errorData.message || 'Action impossible');
+            }
+
+        } catch (err) {
+            setError(err.message);
+            //navigate('/login');
+        }
     }
 
     const handleModifierClick = () => {
         setIsEditing(!isEditing);
     };
 
+    const handleSupprimerClick = () => {
+        supprimerReservation();
+    };
+
     const handleSave = () => {
-        postReservation(du, au, prix, autre);
+        modifierReservation();
         setIsEditing(false);
     };
 
+    if (error) {
+        return (
+            <div><h3>{error}</h3></div>
+        )
+    }
 
     const toggleInformationVisibility = (type) => {
         if (type === "client") {
@@ -139,8 +180,9 @@ const Reservation = ({ reservation }) => {
                 <button onClick={handleSave}>Save</button>
             </> : (
                 <>
-                    <h4>{du} au ${au}</h4>
-                    <p>{prix} par jour</p>
+                    <h4>{reservation.resDateDebut} au {reservation.resDateFin}</h4>
+                    <p>{reservation.resPrixJour} par jour</p>
+                    <p>{reservation.resAutre}</p>
                     <button className="button-info" onClick={() => toggleInformationVisibility("client")}>
                         Client
                     </button>
@@ -154,7 +196,7 @@ const Reservation = ({ reservation }) => {
                     </button>
                     {chambreVisible && (
                         <p>
-                            { <EditChambre key={chambre.pkChaId} chambre={chambre} />}
+                            <EditChambre key={chambre.pkChaId} chambre={chambre} />
                         </p>
                     )}
                 </>
@@ -162,7 +204,7 @@ const Reservation = ({ reservation }) => {
             </div>
 
             <button onClick={handleModifierClick}>{isEditing ? 'Cancel' : 'Modifier'}</button>
-            <button>Supprimer</button>
+            <button onClick={handleSupprimerClick}>Supprimer</button>
         </>
     );
 };

@@ -5,7 +5,9 @@ import Navigation from "./Navigation"
 import AfficheReservation from './components/Reservation/AfficheReservations';
 import RechercheReservation from './components/Reservation/RechercheReservation';
 import RechercheModifierReservation from './components/EditReservation/RechercheModifierReservation';
+import AjouterReservation from './components/Reservation/AjouterReservation';
 import Home from "./Home"
+
 
 function App() {
     return (
@@ -20,6 +22,7 @@ function App() {
                     <Route path="/afficheReservations" element={<AfficheReservation />} />
                     <Route path="/rechercheReservation" element={<RechercheReservation />} />
                     <Route path="/rechercheModifierReservation" element={<RechercheModifierReservation />} />
+                    <Route path="/ajouterReservation" element={<AjouterReservation/>} />
                 </Route>
             </Routes>
         </Router>
