@@ -1,27 +1,30 @@
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { format } from "date-fns";
 
 const AjouterReservation = () => {
     const navigate = useNavigate();
     const [error, setError] = useState('');
-    const [du, setDu] = useState('');
-    const [au, setAu] = useState('');
+    const [du, setDu] = useState(null);
+    const [au, setAu] = useState(null);
     const [prix, setPrix] = useState('');
     const [autre, setAutre] = useState('');
-    const [fkCliId, setFkCliId] = useState('');
-    const [fkChaId, setFkChaId] = useState('');
 
     const [clientNom, setClientNom] = useState('');
     const [chambreNum, setChambreNum] = useState('');
 
-    const ajouterReservation = async () => {
+    const ajouterReservation = async (fkCliId, fkChaId) => {
+        const formattedStartDate = du ? format(du, "yyyy-MM-dd'T'HH:mm:ss") : "";
+        const formattedEndDate = au ? format(au, "yyyy-MM-dd'T'HH:mm:ss") : "";
         const token = localStorage.getItem('accessToken');
         if (!token) {
             navigate('/login');
             return;
         }
         try {
-            const url = `http://localhost:5292/Reservation/modifierReservation`;
+            const url = `http://localhost:5292/Reservation/ajouterReservation`;
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {
@@ -30,8 +33,8 @@ const AjouterReservation = () => {
                 },
                 body: JSON.stringify({
                     pkResId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                    resDateDebut: du,
-                    resDateFin: au,
+                    resDateDebut: formattedStartDate,
+                    resDateFin: formattedEndDate,
                     resPrixJour: prix,
                     resAutre: autre,
                     fkCliId: fkCliId,
@@ -71,7 +74,7 @@ const AjouterReservation = () => {
             }
 
             const data = await response.json();
-            setFkChaId(data.pkChaId);
+            return data[0].pkChaId;
         } catch (err) {
             setError(err.message);
             navigate('/login');
@@ -85,7 +88,7 @@ const AjouterReservation = () => {
             return;
         }
         try {
-            const url = `http://localhost:5292/Client/GetClientById?CliNom=${clientNom}`;
+            const url = `http://localhost:5292/Client/GetClientByName?CliNom=${clientNom}`;
             const response = await fetch(url, {
                 method: 'GET',
                 headers: {
@@ -99,17 +102,25 @@ const AjouterReservation = () => {
             }
 
             const data = await response.json();
-            setFkCliId(data.pkCliId);
+            return data[0].pkCliId;
         } catch (err) {
             setError(err.message);
             navigate('/login');
         }
     };
 
-    const handleSave = () => {
-        fetchChambre();
-        fetchClient();
-        ajouterReservation();
+    const handleSave = async () => {
+        try {
+            const [fkChaId, fkCliId] = await Promise.all([fetchChambre(), fetchClient()]);
+
+            if (fkChaId && fkCliId) {
+                await ajouterReservation(fkCliId, fkChaId);
+            } else {
+                throw new Error("Unable to fetch required data for reservation.");
+            }
+        } catch (error) {
+            setError(error.message);
+        }
     };
     if (error) {
         return (
@@ -119,24 +130,27 @@ const AjouterReservation = () => {
 
     return (
         <>
-            <h1>{fkChaId}</h1>
             <h4>Ajouter Reservation</h4>
             <div>
-                <label>Du:</label>
-                <input
-                    type="text"
-                    value={du}
-                    onChange={(e) => setDu(e.target.value)}
-                    placeholder={du}
+            <label>Date de d&eacute;but:</label>
+            <DatePicker
+                selected={du}
+                onChange={(date) => setDu(date)}
+
+                dateFormat="yyyy-MM-dd" // Format de la date
+                isClearable // Ajoute une icône pour effacer la sélection
+                placeholderText="Choisissez la date de d&eacute;but de la r&eacute;servation"
                 />
             </div>
             <div>
-                <label>Au:</label>
-                <input
-                    type="text"
-                    value={au}
-                    onChange={(e) => setAu(e.target.value)}
-                    placeholder={au}
+            <label>Date de fin:</label>
+            <DatePicker
+                selected={au}
+                onChange={(date) => setAu(date)}
+
+                dateFormat="yyyy-MM-dd" // Format de la date
+                isClearable // Ajoute une icône pour effacer la sélection
+                placeholderText="Choisissez la date de fin de la r&eacute;servation"
                 />
             </div>
             <div>
