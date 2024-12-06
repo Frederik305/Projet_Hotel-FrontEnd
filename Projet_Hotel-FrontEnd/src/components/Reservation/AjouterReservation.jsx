@@ -14,6 +14,7 @@ const AjouterReservation = () => {
     const [clientNom, setClientNom] = useState('');
     const [chambreNum, setChambreNum] = useState('');
 
+
     const ajouterReservation = async () => {
         const token = localStorage.getItem('accessToken');
         if (!token) {
@@ -74,7 +75,7 @@ const AjouterReservation = () => {
             setFkChaId(data.pkChaId);
         } catch (err) {
             setError(err.message);
-            navigate('/login');
+            //navigate('/login');
         }
     };
 
@@ -102,7 +103,7 @@ const AjouterReservation = () => {
             setFkCliId(data.pkCliId);
         } catch (err) {
             setError(err.message);
-            navigate('/login');
+            //navigate('/login');
         }
     };
 
