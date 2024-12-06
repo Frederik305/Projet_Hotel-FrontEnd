@@ -12,7 +12,7 @@ const AjouterReservation = () => {
     const [prix, setPrix] = useState('');
     const [autre, setAutre] = useState('');
 
-    const [clientNom, setClientNom] = useState('');
+    const [clientCourriel, setClientCourriel] = useState('');
     const [chambreNum, setChambreNum] = useState('');
 
     const ajouterReservation = async (fkCliId, fkChaId) => {
@@ -88,7 +88,7 @@ const AjouterReservation = () => {
             return;
         }
         try {
-            const url = `http://localhost:5292/Client/GetClientByName?CliNom=${clientNom}`;
+            const url = `http://localhost:5292/Client/GetClientByEmail?CliCourriel=${clientCourriel}`;
             const response = await fetch(url, {
                 method: 'GET',
                 headers: {
@@ -172,16 +172,16 @@ const AjouterReservation = () => {
                 />
             </div>
             <div>
-                <label>Client:</label>
+                <label>Courriel Client:</label>
                 <input
                     type="text"
-                    value={clientNom}
-                    onChange={(e) => setClientNom(e.target.value)}
-                    placeholder={clientNom}
+                    value={clientCourriel}
+                    onChange={(e) => setClientCourriel(e.target.value)}
+                    placeholder={clientCourriel}
                 />
             </div>
             <div>
-                <label>Chambre:</label>
+                <label>Numero de Chambre:</label>
                 <input
                     type="text"
                     value={chambreNum}
