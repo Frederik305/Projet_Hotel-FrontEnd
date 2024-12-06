@@ -20,6 +20,7 @@ const Reservation = ({ reservation }) => {
     const [au, setAu] = useState(reservation.resDateFin);
     const [prix, setPrix] = useState(reservation.resPrixJour);
     const [autre, setAutre] = useState(reservation.resAutre);
+    const [deleted, setDeleted] = useState(false);
 
     const modifierReservation = async () => {
         const token = localStorage.getItem('accessToken');
@@ -99,18 +100,13 @@ const Reservation = ({ reservation }) => {
 
     const handleSupprimerClick = () => {
         supprimerReservation();
+        setDeleted(true);
     };
 
     const handleSave = () => {
         modifierReservation();
         setIsEditing(false);
     };
-
-    if (error) {
-        return (
-            <div><h3>{error}</h3></div>
-        )
-    }
 
     const toggleInformationVisibility = (type) => {
         if (type === "client") {
@@ -135,6 +131,16 @@ const Reservation = ({ reservation }) => {
             }
         }
     };
+
+    if (error) {
+        return (
+            <div><h3>{error}</h3></div>
+        )
+    }
+
+    if (deleted) {
+        return (<></>)
+    }
 
     return (
         <>
