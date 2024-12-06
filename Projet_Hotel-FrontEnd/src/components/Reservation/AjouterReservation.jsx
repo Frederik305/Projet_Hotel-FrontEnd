@@ -70,14 +70,14 @@ const AjouterReservation = () => {
             });
 
             if (!response.ok) {
-                throw new Error('Erreur de récupération des réservations');
+                throw new Error('Erreur de rï¿½cupï¿½ration des rï¿½servations');
             }
 
             const data = await response.json();
             return data[0].pkChaId;
         } catch (err) {
             setError(err.message);
-            navigate('/login');
+            //navigate('/login');
         }
     };
 
@@ -98,14 +98,14 @@ const AjouterReservation = () => {
             });
 
             if (!response.ok) {
-                throw new Error('Erreur de récupération des réservations');
+                throw new Error('Erreur de rï¿½cupï¿½ration des rï¿½servations');
             }
 
             const data = await response.json();
             return data[0].pkCliId;
         } catch (err) {
             setError(err.message);
-            navigate('/login');
+            //navigate('/login');
         }
     };
 
@@ -138,7 +138,7 @@ const AjouterReservation = () => {
                 onChange={(date) => setDu(date)}
 
                 dateFormat="yyyy-MM-dd" // Format de la date
-                isClearable // Ajoute une icône pour effacer la sélection
+                isClearable // Ajoute une icï¿½ne pour effacer la sï¿½lection
                 placeholderText="Choisissez la date de d&eacute;but de la r&eacute;servation"
                 />
             </div>
@@ -149,7 +149,7 @@ const AjouterReservation = () => {
                 onChange={(date) => setAu(date)}
 
                 dateFormat="yyyy-MM-dd" // Format de la date
-                isClearable // Ajoute une icône pour effacer la sélection
+                isClearable // Ajoute une icï¿½ne pour effacer la sï¿½lection
                 placeholderText="Choisissez la date de fin de la r&eacute;servation"
                 />
             </div>

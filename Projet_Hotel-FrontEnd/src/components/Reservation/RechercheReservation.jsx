@@ -31,7 +31,8 @@ const RechercheReservation = () => {
        
 
     const searchReservations = async () => {
-        
+        setReservations([]);
+        setError(''); // Réinitialiser l'erreur avant chaque nouvelle recherche
         const formattedStartDate = startDate ? format(startDate, "yyyy-MM-dd'T'HH:mm:ss") : "";
         const formattedEndDate = endDate ? format(endDate, "yyyy-MM-dd'T'HH:mm:ss") : "";
         const formattedPrice = price || 0.0 ;
@@ -63,7 +64,9 @@ const RechercheReservation = () => {
                 return;
             }
             else if (response.status === 404) {
-                throw new Error('Aucune réservation ne correspond à votre recherche.');
+                setReservations([]);
+                setError('Aucune réservation ne correspond à votre recherche.');
+                return;
             }
 
             if (!response.ok) {
@@ -72,6 +75,7 @@ const RechercheReservation = () => {
             
 
             const data = await response.json();
+
             setReservations(data);
         } catch (err) {
             setError(err.message);
@@ -114,7 +118,7 @@ const RechercheReservation = () => {
                 
                     <button onClick={searchReservations}>Rechercher</button>
                 </div>
-                {reservations.length > 0 && <ListeReservation reservations={reservations} error={error} />}
+                <ListeReservation reservations={reservations} error={error} />
             </div>
         </>
     );

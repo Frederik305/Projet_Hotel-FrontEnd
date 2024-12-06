@@ -4,7 +4,7 @@ const Chambre = ({ chambre }) => {
     return (
 
         <>
-            <div className="reservation-card">              
+            <div className="card">              
                 <h4>Numero de chambre: {chambre.chaNumero}</h4> 
                 <h4>Info divers: {chambre.chaAutreInfo}</h4>
             </div>
