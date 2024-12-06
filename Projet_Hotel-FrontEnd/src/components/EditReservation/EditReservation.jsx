@@ -149,9 +149,9 @@ const Reservation = ({ reservation }) => {
        
             {isEditing ? 
                 <>
-                <h4>Edit Reservation</h4>
+                <h4>Modifier Reservation</h4>
                 <div>
-                    <label>Du:</label>
+                    <label>Date de début:</label>
                     <input
                         type="text"
                         value={du}
@@ -160,7 +160,7 @@ const Reservation = ({ reservation }) => {
                     />
                 </div>
                 <div>
-                    <label>Au:</label>
+                    <label>Date de fin:</label>
                     <input
                         type="text"
                         value={au}
@@ -169,7 +169,7 @@ const Reservation = ({ reservation }) => {
                     />
                 </div>
                 <div>
-                    <label>Prix:</label>
+                    <label>Prix par jour:</label>
                     <input
                         type="text"
                         value={prix}
@@ -178,7 +178,7 @@ const Reservation = ({ reservation }) => {
                     />
                 </div>
                 <div>
-                    <label>Autre:</label>
+                    <label>Autres information:</label>
                     <input
                         type="text"
                         value={autre}
@@ -186,14 +186,14 @@ const Reservation = ({ reservation }) => {
                         placeholder={autre}
                     />
                 </div>
-                <button onClick={handleSave}>Save</button>
+                <button onClick={handleSave}>Sauvegarder</button>
             </> : (
                 <>
                     <h4>{reservation.resDateDebut} au {reservation.resDateFin}</h4>
-                    <p>{reservation.resPrixJour} par jour</p>
+                    <p>{reservation.resPrixJour}$ par jour</p>
                     <p>{reservation.resAutre}</p>
                     <button className="button-info" onClick={() => toggleInformationVisibility("client")}>
-                        Client
+                        Afficher le client
                     </button>
                     {clientVisible && (
                         <p>
@@ -201,19 +201,20 @@ const Reservation = ({ reservation }) => {
                         </p>
                     )}
                     <button className="button-info" onClick={() => toggleInformationVisibility("chambre")}>
-                        Chambre
+                        Afficher la chambre
                     </button>
                     {chambreVisible && (
                         <p>
                             <EditChambre key={chambre.pkChaId} chambre={chambre} />
                         </p>
-                    )}
+                    )}<button onClick={handleSupprimerClick}>Canceler la réservation</button>
                 </>
-                    )}
-                <div>
-                    <button onClick={handleModifierClick}>{isEditing ? 'Cancel' : 'Modifier'}</button>
-                    <button onClick={handleSupprimerClick}>Supprimer</button>
-                </div>
+            )}
+            
+
+                <button onClick={handleModifierClick}>{isEditing ? 'Cancel' : 'Modifier la réservation'}</button>
+                
+
             </div>
         </>
     );

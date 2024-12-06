@@ -72,10 +72,10 @@ const EditClient = ({ client }) => {
 
     return (
         <>
-            <div>{isEditing ? <>
-                <h4>Edit Client: {client.cliPrenom} {client.cliNom}</h4>
+            <div className="card">{isEditing ? <>
+                <h4>Modifier le client: {client.cliPrenom} {client.cliNom}</h4>
                 <div>
-                    <label>Prenom:</label>
+                    <label>Prénom:</label>
                     <input
                         type="text"
                         value={prenom}
@@ -131,14 +131,16 @@ const EditClient = ({ client }) => {
                 <button onClick={handleSave}>Save</button>
             </> : <div>
                     <h4>{client.cliPrenom} {client.cliNom}</h4>
-                <button onClick={handleShowClick}>{showAdressAndMobile ? 'more info →' : 'more info ↓'}</button>
+                <button onClick={handleShowClick}>{showAdressAndMobile ? "Plus d'info →" : "Plus d'info ↓"}</button>
                 <p>{showAdressAndMobile ? '' : `${client.cliAddresseResidence}`}</p>
                 <p>{showAdressAndMobile ? '' : `${client.cliCourriel}`}</p>
                 <p>{showAdressAndMobile ? '' : `${client.cliTelephoneMobile}`}</p>
-            </div>}</div>
+            </div>}
+                <button onClick={handleModifierClick}>{isEditing ? 'Annuler' : 'Modifier le client'}</button>
+            </div>
 
-            <button onClick={handleModifierClick}>{isEditing ? 'Cancel' : 'Modifier'}</button>
-            <button>Supprimer</button>
+            
+            
         </>
     );
 };

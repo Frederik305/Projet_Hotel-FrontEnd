@@ -66,8 +66,8 @@ const EditChambre = ({ chambre }) => {
 
     return (
         <>
-            <div>{isEditing ? <>
-                <h4>Edit Chambre: {chambre.chaNumero}</h4>
+            <div className="card">{isEditing ? <>
+                <h4>Modifier la chambre: {chambre.chaNumero}</h4>
                 <div>
                     <label>Numéro de Chambre:</label>
                     <input
@@ -86,14 +86,14 @@ const EditChambre = ({ chambre }) => {
                         placeholder={autres}
                     />
                 </div>
-                <button onClick={handleSave}>Save</button>
+                <button onClick={handleSave}>Sauvegarder les modifications</button>
             </> : <div>
                 <h4>{chambre.chaNumero}</h4>
-                <button onClick={handleShowClick}>{showInfoDivers ? 'more info →' : 'more info ↓'}</button>
+                    <button onClick={handleShowClick}>{showInfoDivers ? "Plus d'info →" : "Plus d'info →"}</button>
                 <p>{showInfoDivers ? '' : `${chambre.chaAutreInfo}`}</p>
-            </div>}</div>
+            </div>}
 
-            <button onClick={handleModifierClick}>{isEditing ? 'Cancel' : 'Modifier'}</button>
+            <button onClick={handleModifierClick}>{isEditing ? 'Annuler' : 'Modifier la chambre'}</button></div>
         </>
     );
 }
