@@ -7,11 +7,11 @@ import { format } from "date-fns";
 const AjouterReservation = () => {
     const navigate = useNavigate();
     const [error, setError] = useState('');
+    const [successMessage, setSuccessMessage] = useState(''); // Nouvel état pour le message de succès
     const [du, setDu] = useState(null);
     const [au, setAu] = useState(null);
     const [prix, setPrix] = useState('');
     const [autre, setAutre] = useState('');
-
     const [clientCourriel, setClientCourriel] = useState('');
     const [chambreNum, setChambreNum] = useState('');
 
@@ -43,13 +43,15 @@ const AjouterReservation = () => {
             });
 
             if (!response.ok) {
-                const errorData = await response.text();
-                throw new Error(errorData.message || 'Action impossible');
+                const errorData = await response.json();
+                throw new Error(errorData.message);
             }
+            setError('');
+            setSuccessMessage('Réservation ajoutée avec succès !'); // Message de succès
 
         } catch (err) {
-            setError(err.message);
-            //navigate('/login');
+            setError(err.message); // En cas d'erreur, afficher le message d'erreur
+            setSuccessMessage(''); // Réinitialiser le message de succès en cas d'erreur
         }
     }
 
@@ -70,14 +72,14 @@ const AjouterReservation = () => {
             });
 
             if (!response.ok) {
-                throw new Error('Erreur de r�cup�ration des r�servations');
+                const errorData = await response.json();
+                throw new Error(errorData.message);
             }
 
             const data = await response.json();
             return data[0].pkChaId;
         } catch (err) {
             setError(err.message);
-            //navigate('/login');
         }
     };
 
@@ -98,100 +100,96 @@ const AjouterReservation = () => {
             });
 
             if (!response.ok) {
-                throw new Error('Erreur de r�cup�ration des r�servations');
+                const errorData = await response.json();
+                throw new Error(errorData.message);
             }
 
             const data = await response.json();
-            return data[0].pkCliId;
+            return data.pkCliId;
         } catch (err) {
             setError(err.message);
-            //navigate('/login');
         }
     };
 
     const handleSave = async () => {
-        try {
+        
             const [fkChaId, fkCliId] = await Promise.all([fetchChambre(), fetchClient()]);
 
             if (fkChaId && fkCliId) {
                 await ajouterReservation(fkCliId, fkChaId);
-            } else {
-                throw new Error("Unable to fetch required data for reservation.");
-            }
-        } catch (error) {
-            setError(error.message);
-        }
+            } 
+        
     };
-    if (error) {
-        return (
-            <div><h3>{error}</h3></div>
-        )
-    }
 
     return (
-        <>
-            <h4>Ajouter Reservation</h4>
-            <div>
-            <label>Date de d&eacute;but:</label>
-            <DatePicker
-                selected={du}
-                onChange={(date) => setDu(date)}
+        <div className="containerSearch">
+            <div className="form-search">
+                <h2>Ajouter Reservation</h2>
+                <label>Date de début:</label>
+                <div>
+                    
+                    <DatePicker
+                        selected={du}
+                        onChange={(date) => setDu(date)}
+                        dateFormat="yyyy-MM-dd"
+                        isClearable
+                        placeholderText="Choisissez la date de début de la réservation"
+                    />
+                </div>
+                <label>Date de fin:</label>
+                <div>
+                    
+                    <DatePicker
+                        selected={au}
+                        onChange={(date) => setAu(date)}
+                        dateFormat="yyyy-MM-dd"
+                        isClearable
+                        placeholderText="Choisissez la date de fin de la réservation"
+                    />
+                </div>
+                <div>
+                    <label>Prix:</label>
+                    <input
+                        type="text"
+                        value={prix}
+                        onChange={(e) => setPrix(e.target.value)}
+                        placeholder={prix}
+                    />
+                </div>
+                <div>
+                    <label>Autre:</label>
+                    <input
+                        type="text"
+                        value={autre}
+                        onChange={(e) => setAutre(e.target.value)}
+                        placeholder={autre}
+                    />
+                </div>
+                <div>
+                    <label>Courriel Client:</label>
+                    <input
+                        type="text"
+                        value={clientCourriel}
+                        onChange={(e) => setClientCourriel(e.target.value)}
+                        placeholder={clientCourriel}
+                    />
+                </div>
+                <div>
+                    <label>Numéro de Chambre:</label>
+                    <input
+                        type="text"
+                        value={chambreNum}
+                        onChange={(e) => setChambreNum(e.target.value)}
+                        placeholder={chambreNum}
+                    />
+                </div>
 
-                dateFormat="yyyy-MM-dd" // Format de la date
-                isClearable // Ajoute une ic�ne pour effacer la s�lection
-                placeholderText="Choisissez la date de d&eacute;but de la r&eacute;servation"
-                />
-            </div>
-            <div>
-            <label>Date de fin:</label>
-            <DatePicker
-                selected={au}
-                onChange={(date) => setAu(date)}
+                <button onClick={handleSave}>Save</button>
 
-                dateFormat="yyyy-MM-dd" // Format de la date
-                isClearable // Ajoute une ic�ne pour effacer la s�lection
-                placeholderText="Choisissez la date de fin de la r&eacute;servation"
-                />
+                {error && <div style={{ color: 'red' }}>{error}</div>}
+                {successMessage && <div style={{ color: 'green' }}>{successMessage}</div>} {/* Afficher le message de succès */}
             </div>
-            <div>
-                <label>Prix:</label>
-                <input
-                    type="text"
-                    value={prix}
-                    onChange={(e) => setPrix(e.target.value)}
-                    placeholder={prix}
-                />
-            </div>
-            <div>
-                <label>Autre:</label>
-                <input
-                    type="text"
-                    value={autre}
-                    onChange={(e) => setAutre(e.target.value)}
-                    placeholder={autre}
-                />
-            </div>
-            <div>
-                <label>Courriel Client:</label>
-                <input
-                    type="text"
-                    value={clientCourriel}
-                    onChange={(e) => setClientCourriel(e.target.value)}
-                    placeholder={clientCourriel}
-                />
-            </div>
-            <div>
-                <label>Numero de Chambre:</label>
-                <input
-                    type="text"
-                    value={chambreNum}
-                    onChange={(e) => setChambreNum(e.target.value)}
-                    placeholder={chambreNum}
-                />
-            </div>
-          
-            <button onClick={handleSave}>Save</button>
-        </>
+        </div>
     );
 }
 
