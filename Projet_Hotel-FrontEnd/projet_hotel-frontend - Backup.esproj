@@ -9,7 +9,7 @@
     <BuildOutputFolder>$(MSBuildProjectDirectory)\dist</BuildOutputFolder>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="src\components\EditReservation\" />
-    <Folder Include="src\Header\" />
+    <None Remove="src\Header\**" />
+    <TypeScriptConfiguration Remove="src\Header\**" />
   </ItemGroup>
 </Project>

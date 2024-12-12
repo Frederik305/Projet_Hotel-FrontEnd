@@ -13,7 +13,7 @@ const ListeReservation = ({reservations ,error }) => {
                 <p>Erreur : {error}</p>
             ) : (
                 reservations.length === 0 ? (
-                    <p>Aucune réservation trouvée avec les critères de recherche.</p>
+                    <p>Aucune résultat.</p>
                 ) : (
                     <div className="reservation-list">
                         {reservations.map((reservation) => (
