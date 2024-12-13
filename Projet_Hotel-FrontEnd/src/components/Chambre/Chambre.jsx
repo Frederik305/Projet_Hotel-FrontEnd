@@ -1,52 +1,43 @@
 ﻿/* eslint-disable react/prop-types */
 import TypeChambre from "../TypeChambre/TypeChambre";
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import ReservationsRequests from "../ReservationsRequests";
 
 const Chambre = ({ chambre }) => {
-    const [typeChambre, setTypeChambre] = useState([]);
-    const [error, setError] = useState('');
-    const navigate = useNavigate()
+    // Utilisation du hook personnalisé
+    const { typeChambre, fetchTypeChambre } = ReservationsRequests({}, chambre);
 
-    useEffect(() => {const fetchTypeChambre = async () => {
-        const token = localStorage.getItem('accessToken');
-        if (!token) {
-            navigate('/login');
-            return;
-        }
-        try {
-            const url = `http://localhost:5292/GetTypeChambreById?PkTypId${chambre.fkTypId}`;
-            const response = await fetch(url, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-            });
+    // États pour gérer la visibilité et le chargement des données de type de chambre
+    const [typeChambreVisible, setTypeChambreVisible] = useState(false);
+    const [loadingTypeChambre, setLoadingTypeChambre] = useState(false);
 
-            if (!response.ok) {
-                throw new Error('Erreur de r�cup�ration du type de chambre');
+    // Fonction pour gérer la visibilité et déclencher le fetch
+    const toggleTypeChambreVisibility = async () => {
+        if (!typeChambre) {
+            if (!loadingTypeChambre) {
+                setLoadingTypeChambre(true);
+                await fetchTypeChambre();
+                setLoadingTypeChambre(false);
+                setTypeChambreVisible(true);
             }
-
-            const data = await response.json();
-            setTypeChambre(data);
-           
-        } catch (err) {
-            setError(err.message);
-            //navigate('/login');
+        } else {
+            setTypeChambreVisible((prev) => !prev);
         }
-    }; fetchTypeChambre();
-    }, [navigate]);
+    };
+
+    useEffect(() => {
+        toggleTypeChambreVisibility();
+    }, []);
 
     return (
+        <div className="card">
+            <h4>Numero de chambre: {chambre.chaNumero}</h4>
 
-        <>
-            <div className="card">              
-                <h4>Numero de chambre: {chambre.chaNumero}</h4> 
-                
-                <TypeChambre TypeChambre={typeChambre} />
-            </div>
-        </>
+            {loadingTypeChambre ? '' :
+                typeChambreVisible && <TypeChambre TypeChambre={typeChambre} />
+            }
+        </div>
     );
 };
+
 export default Chambre;

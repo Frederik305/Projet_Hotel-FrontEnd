@@ -64,7 +64,7 @@ const Reservation = ({ reservation }) => {
                     <br />
                     <button className="button-info" onClick={() => toggleInformationVisibility("chambre")}>Chambre</button>
                     {chambreVisible && (
-                        <Chambre key={chambre.pkChaId} chambre={chambre} />
+                        <Chambre key={chambre.pkChaId} chambre={chambre}/>
                     )}
                 </div>
             </div >
