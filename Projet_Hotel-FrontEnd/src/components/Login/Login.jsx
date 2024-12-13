@@ -39,35 +39,37 @@ const Login = () => {
     };
 
     return (
-        <div className="login-container">
-            <h2>Connexion</h2>
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label>Email:</label>
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Mot de passe:</label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                <button type="submit" className="login-button">
-                    Connexion
-                </button>
-            </form>
+        <main>
+            <div className="login-container">
+                <h2>Connexion</h2>
+                <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label>Email:</label>
+                        <input
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Mot de passe:</label>
+                        <input
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <button type="submit" className="login-button">
+                        Connexion
+                    </button>
+                </form>
 
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <Link to="/signin">Pas de compte? Inscrivez-vous!</Link>
-        </div>
+                {error && <p style={{ color: 'red' }}>{error}</p>}
+                <Link to="/signin">Pas de compte? Inscrivez-vous!</Link>
+            </div>
+        </main>
     );
 };
 

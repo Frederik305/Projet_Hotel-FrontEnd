@@ -43,7 +43,7 @@ const Chambre = ({ chambre }) => {
         <>
             <div className="card">              
                 <h4>Numero de chambre: {chambre.chaNumero}</h4> 
-                <h4>Info divers: {chambre.chaAutreInfo}</h4>
+                
                 <TypeChambre TypeChambre={typeChambre} />
             </div>
         </>

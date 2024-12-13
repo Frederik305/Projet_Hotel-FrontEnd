@@ -3,6 +3,9 @@ import ReservationsRequests from "../ReservationsRequests";
 import EditClient from '../Client/EditClient';
 import EditChambre from '../Chambre/EditChambre'
 import { useNavigate } from 'react-router-dom';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { format } from "date-fns";
 /* eslint-disable react/prop-types */
 
 const Reservation = ({ reservation }) => {
@@ -16,12 +19,20 @@ const Reservation = ({ reservation }) => {
     const [loadingClient, setLoadingClient] = useState(false);
 
     const [isEditing, setIsEditing] = useState(false);
-    const [du, setDu] = useState(reservation.resDateDebut);
-    const [au, setAu] = useState(reservation.resDateFin);
+    const [du, setDu] = useState(new Date(reservation.resDateDebut)); // Conversion en objet Date
+    const [au, setAu] = useState(new Date(reservation.resDateFin));   // Conversion en objet Date
     const [prix, setPrix] = useState(reservation.resPrixJour);
     const [autre, setAutre] = useState(reservation.resAutre);
     const [deleted, setDeleted] = useState(false);
 
+    const formatDate = (dateStr) => {
+        const date = new Date(dateStr);
+        return date.toLocaleDateString('fr-FR', {
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric'
+        });
+    };
     const modifierReservation = async () => {
         const token = localStorage.getItem('accessToken');
         if (!token) {
@@ -48,15 +59,33 @@ const Reservation = ({ reservation }) => {
             });
 
             if (!response.ok) {
-                const errorData = await response.text();
+                const errorData = await response.json();
                 throw new Error(errorData.message || 'Action impossible');
             }
 
+            const data = await response.json();
+            // Mettre à jour l'état avec les nouvelles données
+            setDu(new Date(data.resDateDebut));
+            setAu(new Date(data.resDateFin));
+            setPrix(data.resPrixJour);
+            setAutre(data.resAutre);
+
+            // Si aucune erreur, on désactive le mode édition
+            setIsEditing(false);
+            setError(''); // Réinitialiser l'erreur
+
         } catch (err) {
-            setError(err.message);
-            //navigate('/login');
+            setError(err.message); // Afficher l'erreur
         }
     };
+
+    const handleSave = () => {
+        modifierReservation();
+        // L'état d'édition ne sera mis à jour que si la sauvegarde réussit sans erreur
+    };
+
+
+   
 
     const supprimerReservation = async () => {
         const token = localStorage.getItem('accessToken');
@@ -84,29 +113,38 @@ const Reservation = ({ reservation }) => {
             });
 
             if (!response.ok) {
-                const errorData = await response.text();
+                const errorData = await response.json();
                 throw new Error(errorData.message || 'Action impossible');
             }
-
+            setError('');
+            
+            
         } catch (err) {
             setError(err.message);
-            //navigate('/login');
+            
         }
     }
 
     const handleModifierClick = () => {
-        setIsEditing(!isEditing);
+        if (isEditing) {
+            
+            setDu(new Date(reservation.resDateDebut)); 
+            setAu(new Date(reservation.resDateFin));   
+            setPrix(reservation.resPrixJour);          
+            setAutre(reservation.resAutre);            
+        }
+        setIsEditing(!isEditing); // Changer l'état d'édition
     };
 
     const handleSupprimerClick = () => {
-        supprimerReservation();
-        setDeleted(true);
+        const confirmation = window.confirm('Êtes-vous sûr de vouloir annuler cette réservation ?');
+        if (confirmation) {
+            supprimerReservation();
+            setDeleted(true);
+        }
     };
 
-    const handleSave = () => {
-        modifierReservation();
-        setIsEditing(false);
-    };
+    
 
     const toggleInformationVisibility = (type) => {
         if (type === "client") {
@@ -132,11 +170,7 @@ const Reservation = ({ reservation }) => {
         }
     };
 
-    if (error) {
-        return (
-            <div><h3>{error}</h3></div>
-        )
-    }
+   
 
     if (deleted) {
         return (<></>)
@@ -145,75 +179,82 @@ const Reservation = ({ reservation }) => {
     return (
         <>
 
-            <div className="reservation-card"> 
-       
-            {isEditing ? 
-                <>
-                <h4>Modifier Reservation</h4>
-                <div>
-                    <label>Date de début:</label>
-                    <input
-                        type="text"
-                        value={du}
-                        onChange={(e) => setDu(e.target.value)}
-                        placeholder={du}
-                    />
-                </div>
-                <div>
-                    <label>Date de fin:</label>
-                    <input
-                        type="text"
-                        value={au}
-                        onChange={(e) => setAu(e.target.value)}
-                        placeholder={au}
-                    />
-                </div>
-                <div>
-                    <label>Prix par jour:</label>
-                    <input
-                        type="text"
-                        value={prix}
-                        onChange={(e) => setPrix(e.target.value)}
-                        placeholder={prix}
-                    />
-                </div>
-                <div>
-                    <label>Autres information:</label>
-                    <input
-                        type="text"
-                        value={autre}
-                        onChange={(e) => setAutre(e.target.value)}
-                        placeholder={autre}
-                    />
-                </div>
-                <button onClick={handleSave}>Sauvegarder</button>
-            </> : (
-                <>
-                    <h4>{reservation.resDateDebut} au {reservation.resDateFin}</h4>
-                    <p>{reservation.resPrixJour}$ par jour</p>
-                    <p>{reservation.resAutre}</p>
-                    <button className="button-info" onClick={() => toggleInformationVisibility("client")}>
-                        Afficher le client
-                    </button>
-                    {clientVisible && (
-                        <p>
-                            <EditClient key={client.pkCliId} client={client} />
-                        </p>
-                    )}
-                    <button className="button-info" onClick={() => toggleInformationVisibility("chambre")}>
-                        Afficher la chambre
-                    </button>
-                    {chambreVisible && (
-                        <p>
-                            <EditChambre key={chambre.pkChaId} chambre={chambre} />
-                        </p>
-                    )}<button onClick={handleSupprimerClick}>Canceler la réservation</button>
-                </>
-            )}
-            
+            <div className="reservation-card">
 
-                <button onClick={handleModifierClick}>{isEditing ? 'Cancel' : 'Modifier la réservation'}</button>
-                
+                {isEditing ?
+                    <>
+                        <h4>Modifier Reservation</h4>
+                        <div>
+                            <label>Date de début:</label>
+                            <DatePicker
+                                selected={du}
+                                onChange={(date) => setDu(date)}
+                                dateFormat="dd MMMM yyyy"
+                            />
+                        </div>
+                        <div>
+                            <label>Date de fin:</label>
+                            <DatePicker
+                                selected={au}
+                                onChange={(date) => setAu(date)}
+                                dateFormat="dd MMMM yyyy"
+                            />
+                        </div>
+                        <div>
+                            <label>Prix par jour:</label>
+                            <input
+                                type="text"
+                                value={prix}
+                                onChange={(e) => setPrix(e.target.value)}
+                                placeholder={prix}
+                            />
+                        </div>
+                        <div>
+                            <label>Autres informations:</label>
+                            <input
+                                type="text"
+                                value={autre}
+                                onChange={(e) => setAutre(e.target.value)}
+                                placeholder={autre}
+                            />
+                        </div>
+                        <button onClick={handleSave}>Sauvegarder</button>
+                    </> : (
+                        <>
+                            <h4>Réservation du {formatDate(du)} au {formatDate(au)}</h4>
+                            <p>{prix}$ par jour</p>
+                            <p>{autre}</p>
+                            <button
+                                className="button-info"
+                                onClick={() => toggleInformationVisibility("client")}
+                            >
+                                {clientVisible ? "Cacher le client" : "Afficher le client"}
+                            </button>
+                            {clientVisible && (
+                                <p>
+                                    <EditClient key={client.pkCliId} client={client} />
+                                </p>
+                            )}
+                            <button
+                                className="button-info"
+                                onClick={() => toggleInformationVisibility("chambre")}
+                            >
+                                {chambreVisible ? "Cacher la chambre" : "Afficher la chambre"}
+                            </button>
+                            {chambreVisible && (
+                                <p>
+                                    <EditChambre key={chambre.pkChaId} chambre={chambre} />
+                                </p>
+                            )}<button onClick={handleSupprimerClick}>Annuler la réservation</button>
+                        </>
+                    )}
+
+
+
+                <button onClick={handleModifierClick}>{isEditing ? 'Annuler' : 'Modifier la réservation'}</button>
+                {error && <p style={{ color: 'red' }}>{error}</p>}
+
+
 
             </div>
         </>

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const EditChambre = ({ chambre }) => {
     const navigate = useNavigate();
     const [error, setError] = useState(null);
-    const [showInfoDivers, setInfoDivers] = useState(true);
+
     const [isEditing, setIsEditing] = useState(false);
 
     const [numero, setNumero] = useState(chambre.chaNumero);
@@ -35,9 +35,10 @@ const EditChambre = ({ chambre }) => {
             });
 
             if (!response.ok) {
-                const errorData = await response.text();
-                throw new Error(errorData.message || 'Action impossible');
+                const errorData = await response.json();
+                throw new Error(errorData.message);
             }
+            setAutres(response.chaAutreInfo);
 
         } catch (err) {
             setError(err.message);
@@ -54,9 +55,7 @@ const EditChambre = ({ chambre }) => {
         setIsEditing(false);
     };
 
-    const handleShowClick = () => {
-        setInfoDivers(!showInfoDivers);
-    };
+   
 
     if (error) {
         return (
@@ -87,11 +86,18 @@ const EditChambre = ({ chambre }) => {
                     />
                 </div>
                 <button onClick={handleSave}>Sauvegarder les modifications</button>
-            </> : <div>
-                <h4>{chambre.chaNumero}</h4>
-                    <button onClick={handleShowClick}>{showInfoDivers ? "Plus d'info →" : "Plus d'info →"}</button>
-                <p>{showInfoDivers ? '' : `${chambre.chaAutreInfo}`}</p>
-            </div>}
+            </> :
+                
+            
+                <div>
+                <h4>Numéro de la chambre: {chambre.chaNumero}</h4>
+                    
+                <p>Information sur la chambre: {chambre.chaAutreInfo}</p>
+                </div>
+            
+               
+               
+            }
 
             <button onClick={handleModifierClick}>{isEditing ? 'Annuler' : 'Modifier la chambre'}</button></div>
         </>

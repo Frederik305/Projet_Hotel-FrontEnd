@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const Signin = () => {
     const [email, setEmail] = useState('');
@@ -12,6 +12,7 @@ const Signin = () => {
     const [telephone, setTelephone] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const [isRegistered, setIsRegistered] = useState(false); 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -36,92 +37,105 @@ const Signin = () => {
             });
 
             if (!response.ok) {
-                throw new Error('error:' + response.statusText);
+                const errorData = await response.json();
+                throw new Error(errorData.message);
             }
             
 
-            
-            
-
-            navigate('/login');
+            setIsRegistered(true); 
+            setTimeout(() => {
+                navigate('/login');
+            }, 3000);
         } catch (err) {
             setError(err.message);
         }
     };
-
+    if (isRegistered) {
+        return (
+            <main>
+                <div className="success-container">
+                    <h2>Inscription réussie</h2>
+                    <p>Vous êtes maintenant inscrit. Vous serez redirigé vers la page de connexion.</p>
+                </div>
+            </main>
+        );
+    }
     return (
-        <div className="login-container">
-            <h2>Inscription</h2>
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label>Prénom:</label>
-                    <input
-                        type="text"
-                        value={prenom}
-                        onChange={(e) => setPrenom(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Nom:</label>
-                    <input
-                        type="text"
-                        value={nom}
-                        onChange={(e) => setNom(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Adresse:</label>
-                    <input
-                        type="text"
-                        value={adresse}
-                        onChange={(e) => setAdresse(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Téléphone:</label>
-                    <input
-                        type="text"
-                        value={telephone}
-                        onChange={(e) => setTelephone(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Email:</label>
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Mot de passe:</label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Confirmer le mot de passe:</label>
-                    <input
-                        type="password"
-                        value={password2}
-                        onChange={(e) => setPassword2(e.target.value)}
-                        required
-                    />
-                </div>
-                <button type="submit" className="login-button">
-                    S&apos;inscrire
-                </button>
-            </form>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-        </div>
+        <main>
+            <div className="login-container">
+                <h2>Inscription</h2>
+                <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label>Prénom:</label>
+                        <input
+                            type="text"
+                            value={prenom}
+                            onChange={(e) => setPrenom(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Nom:</label>
+                        <input
+                            type="text"
+                            value={nom}
+                            onChange={(e) => setNom(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Adresse:</label>
+                        <input
+                            type="text"
+                            value={adresse}
+                            onChange={(e) => setAdresse(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Téléphone:</label>
+                        <input
+                            type="text"
+                            value={telephone}
+                            onChange={(e) => setTelephone(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Email:</label>
+                        <input
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Mot de passe:</label>
+                        <input
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Confirmer le mot de passe:</label>
+                        <input
+                            type="password"
+                            value={password2}
+                            onChange={(e) => setPassword2(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <button type="submit" className="login-button">
+                        S&apos;inscrire
+                    </button>
+                </form>
+                <Link to="/login">Déja membre? Connectez-vous!</Link>
+                {error && <p style={{ color: 'red' }}>{error}</p>}
+            </div>
+        </main>
     );
 };
 
