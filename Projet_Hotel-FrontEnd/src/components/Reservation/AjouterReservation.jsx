@@ -7,7 +7,7 @@ import { format } from "date-fns";
 const AjouterReservation = () => {
     const navigate = useNavigate();
     const [error, setError] = useState('');
-    const [successMessage, setSuccessMessage] = useState(''); // Nouvel état pour le message de succès
+    const [successMessage, setSuccessMessage] = useState('');
     const [du, setDu] = useState(null);
     const [au, setAu] = useState(null);
     const [prix, setPrix] = useState('');
@@ -47,7 +47,7 @@ const AjouterReservation = () => {
                 throw new Error(errorData.message);
             }
             setError('');
-            setSuccessMessage('Réservation ajoutée avec succès !'); // Message de succès
+            setSuccessMessage('Réservation ajoutée avec succès !');
 
         } catch (err) {
             setError(err.message); // En cas d'erreur, afficher le message d'erreur
@@ -187,8 +187,10 @@ const AjouterReservation = () => {
 
                     <button onClick={handleSave}>Save</button>
 
-                    {error && <div style={{ color: 'red' }}>{error}</div>}
-                    {successMessage && <div style={{ color: 'green' }}>{successMessage}</div>} {/* Afficher le message de succès */}
+                    {error ?
+                        <div style={{ color: 'red' }}>{error}</div> :
+                        <div style={{ color: 'green' }}>{successMessage}</div>
+                    }
                 </div>
             </div>
         </main>
