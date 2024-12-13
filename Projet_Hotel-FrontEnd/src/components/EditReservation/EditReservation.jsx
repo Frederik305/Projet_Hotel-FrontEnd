@@ -5,7 +5,6 @@ import EditChambre from '../Chambre/EditChambre'
 import { useNavigate } from 'react-router-dom';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { format } from "date-fns";
 /* eslint-disable react/prop-types */
 
 const Reservation = ({ reservation }) => {
