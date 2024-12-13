@@ -122,74 +122,76 @@ const AjouterReservation = () => {
     };
 
     return (
-        <div className="containerSearch">
-            <div className="form-search">
-                <h2>Ajouter Reservation</h2>
-                <label>Date de début:</label>
-                <div>
+        <main>
+            <div className="containerSearch">
+                <div className="form-search">
+                    <h2>Ajouter Reservation</h2>
+                    <label>Date de début:</label>
+                    <div>
                     
-                    <DatePicker
-                        selected={du}
-                        onChange={(date) => setDu(date)}
-                        dateFormat="yyyy-MM-dd"
-                        isClearable
-                        placeholderText="Choisissez la date de début de la réservation"
-                    />
-                </div>
-                <label>Date de fin:</label>
-                <div>
+                        <DatePicker
+                            selected={du}
+                            onChange={(date) => setDu(date)}
+                            dateFormat="yyyy-MM-dd"
+                            isClearable
+                            placeholderText="Choisissez la date de début de la réservation"
+                        />
+                    </div>
+                    <label>Date de fin:</label>
+                    <div>
                     
-                    <DatePicker
-                        selected={au}
-                        onChange={(date) => setAu(date)}
-                        dateFormat="yyyy-MM-dd"
-                        isClearable
-                        placeholderText="Choisissez la date de fin de la réservation"
-                    />
-                </div>
-                <div>
-                    <label>Prix:</label>
-                    <input
-                        type="text"
-                        value={prix}
-                        onChange={(e) => setPrix(e.target.value)}
-                        placeholder={prix}
-                    />
-                </div>
-                <div>
-                    <label>Autre:</label>
-                    <input
-                        type="text"
-                        value={autre}
-                        onChange={(e) => setAutre(e.target.value)}
-                        placeholder={autre}
-                    />
-                </div>
-                <div>
-                    <label>Courriel Client:</label>
-                    <input
-                        type="text"
-                        value={clientCourriel}
-                        onChange={(e) => setClientCourriel(e.target.value)}
-                        placeholder={clientCourriel}
-                    />
-                </div>
-                <div>
-                    <label>Numéro de Chambre:</label>
-                    <input
-                        type="text"
-                        value={chambreNum}
-                        onChange={(e) => setChambreNum(e.target.value)}
-                        placeholder={chambreNum}
-                    />
-                </div>
+                        <DatePicker
+                            selected={au}
+                            onChange={(date) => setAu(date)}
+                            dateFormat="yyyy-MM-dd"
+                            isClearable
+                            placeholderText="Choisissez la date de fin de la réservation"
+                        />
+                    </div>
+                    <div>
+                        <label>Prix:</label>
+                        <input
+                            type="text"
+                            value={prix}
+                            onChange={(e) => setPrix(e.target.value)}
+                            placeholder={prix}
+                        />
+                    </div>
+                    <div>
+                        <label>Autre:</label>
+                        <input
+                            type="text"
+                            value={autre}
+                            onChange={(e) => setAutre(e.target.value)}
+                            placeholder={autre}
+                        />
+                    </div>
+                    <div>
+                        <label>Courriel Client:</label>
+                        <input
+                            type="text"
+                            value={clientCourriel}
+                            onChange={(e) => setClientCourriel(e.target.value)}
+                            placeholder={clientCourriel}
+                        />
+                    </div>
+                    <div>
+                        <label>Numéro de Chambre:</label>
+                        <input
+                            type="text"
+                            value={chambreNum}
+                            onChange={(e) => setChambreNum(e.target.value)}
+                            placeholder={chambreNum}
+                        />
+                    </div>
 
-                <button onClick={handleSave}>Save</button>
+                    <button onClick={handleSave}>Save</button>
 
-                {error && <div style={{ color: 'red' }}>{error}</div>}
-                {successMessage && <div style={{ color: 'green' }}>{successMessage}</div>} {/* Afficher le message de succès */}
+                    {error && <div style={{ color: 'red' }}>{error}</div>}
+                    {successMessage && <div style={{ color: 'green' }}>{successMessage}</div>} {/* Afficher le message de succès */}
+                </div>
             </div>
-        </div>
+        </main>
     );
 }
 

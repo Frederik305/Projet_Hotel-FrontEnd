@@ -13,6 +13,14 @@ const Reservation = ({ reservation }) => {
     const [loadingChambre, setLoadingChambre] = useState(false);
     const [loadingClient, setLoadingClient] = useState(false);
 
+    const formatDate = (dateStr) => {
+        const date = new Date(dateStr);
+        return date.toLocaleDateString('fr-FR', {
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric'
+        });
+    };
     if (error) {
         return <div>Error: {error}</div>;
     }
@@ -45,9 +53,9 @@ const Reservation = ({ reservation }) => {
         <>
             <div className="reservation-card">
                 <h4>
-                    {reservation.resDateDebut} au {reservation.resDateFin}
+                    Réservation du {formatDate(reservation.resDateDebut)} au {formatDate(reservation.resDateFin)}
                 </h4>
-                <p>{reservation.resPrixJour} par jour</p>
+                <p>{reservation.resPrixJour}$ par jour</p>
                 <div>
                     <button className="button-info" onClick={() => toggleInformationVisibility("client")}>Client</button>
                     {clientVisible && (

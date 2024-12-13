@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const EditClient = ({ client }) => {
     const navigate = useNavigate();
     const [error, setError] = useState('');
-    const [showAdressAndMobile, setIsShowing] = useState(true);
+    const [IsShowing, setIsShowing] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
 
     const [prenom, setPrenom] = useState(client.cliPrenom);
@@ -14,6 +14,7 @@ const EditClient = ({ client }) => {
     const [mobile, setMobile] = useState(client.cliTelephoneMobile);
     const [addresse, setAddresse] = useState(client.cliAddresseResidence);
     const [password, setPassword] = useState(client.cliMotDePasse);
+
 
     const modifierClient = async () => {
         const token = localStorage.getItem('accessToken');
@@ -61,7 +62,7 @@ const EditClient = ({ client }) => {
     };
 
     const handleShowClick = () => {
-        setIsShowing(!showAdressAndMobile);
+        setIsShowing(!IsShowing);
     };
 
     if (error) {
@@ -131,10 +132,10 @@ const EditClient = ({ client }) => {
                 <button onClick={handleSave}>Save</button>
             </> : <div>
                     <h4>{client.cliPrenom} {client.cliNom}</h4>
-                <button onClick={handleShowClick}>{showAdressAndMobile ? "Plus d'info →" : "Plus d'info ↓"}</button>
-                <p>{showAdressAndMobile ? '' : `${client.cliAddresseResidence}`}</p>
-                <p>{showAdressAndMobile ? '' : `${client.cliCourriel}`}</p>
-                <p>{showAdressAndMobile ? '' : `${client.cliTelephoneMobile}`}</p>
+                <button onClick={handleShowClick}>{IsShowing ? "Plus d'info →" : "Plus d'info ↓"}</button>
+                <p>Adresse: {IsShowing ? '' : `${client.cliAddresseResidence}`}</p>
+                <p>Courriel: {IsShowing ? '' : `${client.cliCourriel}`}</p>
+                <p>Téléphone: {IsShowing ? '' : `${client.cliTelephoneMobile}`}</p>
             </div>}
                 <button onClick={handleModifierClick}>{isEditing ? 'Annuler' : 'Modifier le client'}</button>
             </div>
