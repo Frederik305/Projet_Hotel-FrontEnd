@@ -19,9 +19,10 @@ const TypeChambre = ({ TypeChambre }) => {
     }
     return (
         <>
+            {/* Affichage de l'image sélectionnée */}
             <img src={selectedPhoto} alt="image de la chambre" className="imageChambre" />
-            <p>Type de chambre: {TypeChambre.typNomType} </p>
-            <p>Description: {TypeChambre.typDescription}</p>
+            <p>Type de chambre: {TypeChambre.typNomType} </p> {/* Affichage du type de chambre */}
+            <p>Description: {TypeChambre.typDescription}</p> {/* Affichage de la description de la chambre */}
         </>
     );
 };
