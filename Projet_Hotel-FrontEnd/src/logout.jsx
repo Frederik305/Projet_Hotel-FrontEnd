@@ -1,4 +1,3 @@
-
 import { useNavigate } from 'react-router-dom'; // Si vous utilisez react-router-dom
 
 const LogoutButton = () => {
